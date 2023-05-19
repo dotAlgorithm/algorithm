@@ -52,6 +52,5 @@ int main() {
 	solve(0,0,C);
 	print();
 	
-	
 	return 0;
 }
