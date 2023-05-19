@@ -14,6 +14,7 @@ void input() {
 void solve() {
 	long long sum = LLONG_MAX;
 	int s[3];
+	
 	for(int i = 0; i<n-2; i++) {
 		long long a = arr[i];
 		long long l = i+1, r = n-1; 
@@ -27,7 +28,9 @@ void solve() {
 			else l++;
 		}
 	}
+	
 	sort(s, s+3);
+	
 	for(int i =0; i<3; i++) cout << s[i] << " ";
 }
 
