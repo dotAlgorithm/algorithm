@@ -23,6 +23,7 @@ void input() {
 		arr[a].push_back(b);
 		indeg[b]++;
 	}
+	
 	cin >> w;
 }
 
@@ -42,6 +43,7 @@ void solve() {
 			td[x] = max(td[x], d[x]+td[v]);
 		}
 	}
+	
 	cout << td[w] << "\n";
 }
 
