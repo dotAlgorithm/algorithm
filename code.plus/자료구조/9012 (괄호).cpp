@@ -14,6 +14,7 @@ int main() {
 		stack<char> str2;
 		int check = 0;
 		cin >> str;
+		
 		for(int i = 0;i<str.size();i++)	{
 			if(str[i] == '(') str2.push(str[i]);
 			else {
@@ -27,26 +28,8 @@ int main() {
 		}
 		if(!check){
 			if(str2.empty()) cout << "YES\n";
-			else cout << "NO\n";
-			
+			else cout << "NO\n";	
 		}
-		
 	}
 	return 0;
 } 
-
-/*
-
-void check(stack<char> &str){
-	if(str.top()=='(' || str.size()%2) {
-		cout << "NO\n";
-		return;
-	}
-	while(!str.empty()){
-		str.pop();
-		str.pop();
-	}
-	cout << "YES";
-	
-}
-*/
