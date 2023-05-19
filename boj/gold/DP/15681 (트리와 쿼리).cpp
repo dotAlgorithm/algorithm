@@ -50,5 +50,6 @@ int main() {
 	
 	input();
 	solve();
+	
 	return 0;
 }
