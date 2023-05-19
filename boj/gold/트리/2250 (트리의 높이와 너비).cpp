@@ -19,6 +19,7 @@ void input() {
 		parent[tree[vertex][1]] = true;
 	}
 }
+
 void inOrder(int x, int h) {
 	if(x == -1) return;
 	int left = tree[x][0];
@@ -28,11 +29,13 @@ void inOrder(int x, int h) {
 	//cout << x << "는 " << h << "레벨에 " << width <<"너비\n"; 
 	inOrder(right, h+1);
 }
+
 int find_Parent() {
 	for(int i = 1; i<=n; i++) {
 		if(!parent[i]) return i;
 	}
 }
+
 void solve() {
 	inOrder(find_Parent(), 1);
 	int maxW = 0;
@@ -48,6 +51,7 @@ void solve() {
 	}
 	cout << level << " " << maxW;
 }
+
 int main() {
 	ios_base::sync_with_stdio(0);
 	cin.tie(NULL);
