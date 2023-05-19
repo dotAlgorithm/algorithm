@@ -37,18 +37,13 @@ int main(void) {
         cin >> a >> b >> c;
         graph[a].push_back({b, c});
     }
-
     fill_n(d, 20001, INF);
     
     dijkstra(start);
 
     for (int i = 1; i <= n; i++) {
-        if (d[i] == INF) {
-            cout << "INF" << '\n';
-        }
-        else {
-            cout << d[i] << '\n';
-        }
+        if (d[i] == INF) cout << "INF" << '\n';
+        else cout << d[i] << '\n';
     }
     return 0;
 }
