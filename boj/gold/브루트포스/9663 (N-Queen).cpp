@@ -11,11 +11,8 @@ bool promising(int row) {
 		bool colRow =
 		(col[i] == col[row]) ? true : false;
 		bool diag = 
-		(abs(row-i) == abs(col[row]-col[i])) ?
-		true : false;
-		if(colRow || diag) {
-			return false;
-		}
+		(abs(row-i) == abs(col[row]-col[i])) ? true : false;
+		if(colRow || diag) return false;
  	}
  	return true;
 }
@@ -27,9 +24,7 @@ void rec(int row) {
 	}
 	for(int i = 0; i<n; i++) {
 		col[row] = i;
-		if(promising(row)) {
-			rec(row+1);
-		}
+		if(promising(row)) rec(row+1);
 	}
 }
 
