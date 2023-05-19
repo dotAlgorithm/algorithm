@@ -26,7 +26,6 @@ double recur(char op){
 		<< b << ", op : " << op << ", ch = " <<
 		ch << ", cal -> " << cal(a, b, ch)
 		<< "\n";*/
-		
 		return cal(a, b, ch);
 	}
 	return 0;
