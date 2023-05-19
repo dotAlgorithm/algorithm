@@ -17,10 +17,12 @@ int main() {
 	int n;
 	cin >> n ;
 	cin.ignore();	
+	
 	while(n--){
 		string str;
 		vector<char> result;
 		getline(cin, str);
+		
 		for(int i = 0; i<str.size(); i++){
 			if(str[i] == ' ') {
 				clear(result);
