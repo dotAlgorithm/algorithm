@@ -10,11 +10,13 @@ int indeg[1001];
 
 void input() {
 	cin >> n >> k;
+	
 	for(int i = 1; i<=n; i++) {
 		arr[i].clear();
 		cin >> d[i];
 		td[i] = d[i];	
 	}
+	
 	for(int i = 0; i<k; i++) {
 		int a, b;
 		cin >> a >> b;
@@ -27,6 +29,7 @@ void input() {
 
 void solve() {
 	queue<int> q;
+	
 	for(int i = 1; i<=n; i++) {
 		if(indeg[i] == 0) q.push(i);
 	}
