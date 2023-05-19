@@ -24,5 +24,6 @@ int main() {
 	}
 	if(q.size()==1) sum+=(-q.top());
 	cout << sum;
+	
 	return 0;
 }
