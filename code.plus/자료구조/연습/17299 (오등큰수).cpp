@@ -24,7 +24,9 @@ int main() {
 		arr.push_back(num);
 		F[num]++;
 	}
+	
 	int size = arr.size();
+	
 	while(size--){
 		ngf[F[arr[size]]] = arr[size];
 		arr[size] = F[arr[size]];
@@ -36,6 +38,7 @@ int main() {
 		if(st.empty()) arr[size] = -1;
 		st.push(val);
 	}
+	
 	for(int i = 0; i<arr.size(); i++) cout << arr[i] <<" ";
 		
 	return 0;

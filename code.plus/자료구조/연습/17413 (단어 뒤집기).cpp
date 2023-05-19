@@ -30,7 +30,6 @@ int main() {
 			nstr += str[i];
 		}
 		else st.push(str[i]);
-		
 		if(str[i] == '>') chk = false;
 	}
 	
@@ -38,8 +37,8 @@ int main() {
 		nstr += st.top();
 		st.pop();
 	}
-	cout << nstr;
 	
+	cout << nstr;
 	
 	return 0;
 }
