@@ -21,12 +21,8 @@ void solve() {
 	int s = 0; int e = 1e9;
 	while(s<=e) {
 		int mid = (s+e)/2;
-		if(valid(mid)) {
-			e = mid - 1;
-		}
-		else {
-			s = mid + 1;
-		}
+		if(valid(mid)) e = mid - 1;
+		else s = mid + 1;
 	}
 	cout << s;
 }
