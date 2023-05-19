@@ -27,7 +27,7 @@ void dfs(int x, int parent) {
 		p[x][0] += p[v][1];
 		p[x][1] += max(p[v][0],p[v][1]);
 	}
-	cout << x << "일 때, " << p[x][0] << ", " << p[x][1] << "\n"; 
+	//cout << x << "일 때, " << p[x][0] << ", " << p[x][1] << "\n"; 
 }
 
 void solve() {
