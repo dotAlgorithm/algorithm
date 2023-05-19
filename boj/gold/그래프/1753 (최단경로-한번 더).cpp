@@ -45,7 +45,6 @@ void dijkstra() {
 
 void solve() {
 	dijkstra();
-	
 	for(int i = 1; i<=n; i++) {
 		if(dist[i] == INT_MAX) cout << "INF\n";
 		else cout << dist[i] << "\n";
