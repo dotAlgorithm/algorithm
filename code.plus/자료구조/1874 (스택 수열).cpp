@@ -28,11 +28,10 @@ int main() {
 		cin >> num;
 		sort(num);
 	} 
-	if(seq.empty()) {
+	if(seq.empty())
 		for(int i = 0; i < order.size(); i++){
 			cout << order[i] << "\n";
 		}
-	}
 	else cout << "NO" << "\n";
 
 	return 0;

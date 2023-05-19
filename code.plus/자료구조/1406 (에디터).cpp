@@ -23,9 +23,7 @@ void sort(char inst, char cn) {
 }
 int main() {
 	cin >> str;
-	
 	for(int i = 0; i<str.size(); i++) st1.push(str[i]);
-	
 	cin >> n;
 	
 	while(n--){
@@ -43,7 +41,6 @@ int main() {
 		cout << st2.top();
 		st2.pop();
 	}
-	
 	
 	return 0;
 }
