@@ -2,61 +2,46 @@
 
 using namespace std;
 
+int chk;
+stack<char> st;
 string sort(string s){
 	string nstr;
-	string pri;
-	stack<char> st;	
-	int chk = 0;
 	for(int i = 0; i<s.size(); i++){
 		char ch = s[i];
-		if(ch >= 'A' && ch <= 'Z') {
-			if(!chk) {
-				nstr += ch;
-				continue;
-			}
-		}	
-		if(ch == '(') {
-			if(chk) pri+=ch;
-			chk++;
-			continue;	
-		}
-		else if(ch == ')') {
-			if(chk>1) {
-				pri += ch;
-				chk--;
-				continue;
-			}
-			nstr += sort(pri);
-			chk--;
-			continue;
-		}
+		if(ch >= 'A' && ch <= 'Z') nstr += ch;
 		else {
-			if(chk>=1) {
-				pri += ch;
-				continue;
-			}
-		}
-		
-		if(st.empty()) {
-			st.push(ch);
-		}
-		else {
-			char top = st.top();
-			if(top == '*' || top == '/') {
-				if(ch == '*' || ch == '/') {
-					nstr += st.top();
-					st.pop();
-				}
-				else {
-					while(!st.empty()){
+			if (st.empty() || ch == '(') st.push(ch);
+			else {
+				if(ch == ')') {
+					while(st.top() != '('){
 						nstr += st.top();
 						st.pop();
 					}
+					st.pop();
 				}
-				st.push(ch);
+				else {
+					if (ch=='+' || ch == '-') {
+						if(st.top() == '*' || st.top() == '/') {
+							nstr += st.top();
+							st.pop();
+						}
+						if(!st.empty() && (st.top() == '+' || st.top() == '-')){
+							nstr += st.top();
+							st.pop();
+						}
+						st.push(ch);
+					}
+					else {
+						if(st.top() == '*' || st.top() == '/') {
+							nstr += st.top();
+							st.pop();
+						}
+						st.push(ch);
+					}
+				}
+				
 			}
-			else st.push(ch);
-			}
+		}
 	}
 	while(!st.empty()) {
 		nstr += st.top();
