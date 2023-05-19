@@ -23,6 +23,7 @@ void solve() {
 		cout << 0;
 		return;
 	} 
+	
 	queue<int> q;
 	q.push(root);
 	visited[root] = true;
