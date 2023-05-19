@@ -3,88 +3,87 @@
 using namespace std;
 
 int n, m;
-int arr[51][51];
-pair<int, int> start, endNum;
-int dx[] = {1, -1, 0, 0};
-int dy[] = {0, 0, 1, -1};
+int graph[51][51];
+bool visited[51][51];
+int dx[4] = {1, -1, 0, 0};
+int dy[4] = {0, 0, -1, 1};
+queue<pair<int, int> > water;
+pair<int, int> terminal, hog;
 
 void input() {
-	cin >> n >> m; 
+	cin >> n >> m;
 	for(int i = 0; i<n; i++) {
 		string s;
 		cin >> s;
-		for(int j = 0; j<m; j++) {
-			if(s[j] == 'X') arr[i][j] = -2;
-			else if(s[j] == '*') arr[i][j] = -1;
-			else if(s[j] == '.') arr[i][j] = 0;
-			else if(s[j] == 'D') {
-				arr[i][j] = -3;
-				endNum = {i, j};
-			}
-			else {
-				arr[i][j] = 0;
-				start = {i, j};
-			}
+		for(int j = 0; j<s.size(); j++) {
+			if(s[j]=='X' || s[j] == 'D') graph[i][j] = -1;
+			else graph[i][j] = 0;
+			if(s[j] == 'D') terminal = {i, j};
+			if(s[j] == 'S') hog = {i, j};
+			if(s[j] == '*') water.push({i, j});
 		}
 	}
 }
 
-void water() {
-	vector<pair<int, int> > v;
-	for(int i = 0; i<n; i++) {
-		for(int j = 0; j<m; j++) {
-			if(arr[i][j] == -1) {
-				for(int k = 0; k<4; k++) {
-					int nx = i+dx[k]; int ny = j+dy[k];
-					if(nx < 0 || nx >= n) continue;
-					if(ny < 0 || ny >= n) continue;
-					if(arr[nx][ny] == 0) {
-						v.push_back({nx, ny});
-					}
-				}
-			}
+void bfs_water() {
+	graph[terminal.first][terminal.second] = -1;
+	while(!water.empty()) {
+		int x = water.front().first;
+		int y = water.front().second; 
+		water.pop();
+		visited[x][y] = true;
+		for(int i = 0; i<4; i++) {
+			int nx = x+dx[i];
+			int ny = y+dy[i];
+			if(nx >= n || nx < 0) continue;
+			if(ny >= m || ny < 0) continue;
+			if(graph[nx][ny] == -1) continue;
+			if(visited[nx][ny]) continue;
+			visited[nx][ny] = true;
+			graph[nx][ny] = graph[x][y] + 1;
+			water.push({nx, ny});
 		}
-	}
-	for(int i = 0; i<v.size(); i++) {
-		int x = v[i].first;
-		int y = v[i].second;
-		arr[x][y] = -1;
-	}
+	}	
 }
 
-void solve() {
+void bfs_hog() {
 	queue<pair<int, int> > q;
-	q.push(start);
-	int cnt = 0;
+	q.push(hog);
+	graph[terminal.first][terminal.second] = 255;
+	graph[hog.first][hog.second] = 0;
+	visited[hog.first][hog.second] = true;
 	
 	while(!q.empty()) {
-		water();
 		int x = q.front().first;
 		int y = q.front().second; q.pop();
-		if(x == endNum.first && y == endNum.second) continue;
-	//	cout << "x = " << x << ", " << y << "\n";
 		for(int i = 0; i<4; i++) {
-			int nx = x+dx[i]; int ny = y+dy[i];
-			if(nx < 0 || nx >= n) continue;
-			if(ny < 0 || ny >= m) continue;
-			if(arr[nx][ny] == 0 || arr[nx][ny] == -3) {
-				arr[nx][ny] = arr[x][y]+1;
-				q.push({nx, ny});
-			}
-		} 
-		arr[x][y] = -2;
-		/*
-		for(int i = 0; i<n; i++) {
-			for(int j = 0; j<m; j++) {
-				cout << arr[i][j] << " ";
-			}
-			cout << "\n";
-		}
-		cout << "\n";*/
+			int nx = x+dx[i]; int ny = y + dy[i];
+			if(nx >= n || nx < 0) continue;
+			if(ny >= m || ny < 0) continue;
+			if(graph[nx][ny] == -1) continue;
+			if(visited[nx][ny] && graph[nx][ny] <= graph[x][y]+1) continue;
+			graph[nx][ny] = graph[x][y] + 1;
+			visited[nx][ny] = true;
+			q.push({nx, ny});
+		}		
 	}
-	int e = arr[endNum.first][endNum.second];
-	if(e==-3) cout << "KAKTUS";
-	else cout << e;
+}
+
+void print() {
+	for(int i = 0; i<n; i++) {
+		for(int j = 0; j<m; j++) {
+			cout << graph[i][j] << " ";
+		}
+		cout << "\n";
+	}
+}
+void solve() {
+	bfs_water();
+	//print();
+	bfs_hog();
+	//print();
+	if(graph[terminal.first][terminal.second] == 255) cout << "KAKTUS";
+	else cout << graph[terminal.first][terminal.second];
 }
 
 int main() {
