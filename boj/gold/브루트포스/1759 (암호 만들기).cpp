@@ -16,18 +16,16 @@ void input() {
 }
 
 bool vc(char word) {
-	for(int i = 0; i<5; i++) {
-		if(aeiou[i] == word) return true;
-	}
+	for(int i = 0; i<5; i++) 
+		if(aeiou[i] == word) 
+			return true;
 	return false;
 }
 
 void rec(int k, string s, int ja, int mo) {
 	if(k>c) return;
 	if(s.size()==l) {
-		if(ja >= 2 && mo >= 1) {
-			cout << s << "\n";
-		}
+		if(ja >= 2 && mo >= 1) cout << s << "\n";
 	}
 	else {
 		for(int i = k; i<c; i++) {
