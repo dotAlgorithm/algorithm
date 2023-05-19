@@ -13,6 +13,7 @@ void input() {
 }
 
 int zero = INT_MAX;
+
 void solve() {
 	int l= 0; int r = n-1;
 	int ph8, ph6;

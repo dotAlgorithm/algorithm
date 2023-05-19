@@ -45,6 +45,7 @@ void solve() {
 6, 61, 617, 61710, 617109
 1, 17, 1710, 17109
 */
+
 int main() {
 	ios_base::sync_with_stdio(0);
 	cin.tie(NULL);

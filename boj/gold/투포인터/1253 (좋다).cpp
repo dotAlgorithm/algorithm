@@ -16,18 +16,10 @@ bool finds(int key) {
 		if(l == key) l++;
 		else if(r==key) r--;
 		else {
-			if(arr[l]+arr[r] == arr[key]) {
-			//cout << "언제 true인데? key = " << key << "\n";
-				return true;	
-			}
-			else if(arr[l]+arr[r] > arr[key]) {
-				r--;
-			}
-			else {
-				l++;
-			}
+			if(arr[l]+arr[r] == arr[key]) return true;	
+			else if(arr[l]+arr[r] > arr[key]) r--;
+			else l++;
 		}
-	
 	}
 	return false;
 }

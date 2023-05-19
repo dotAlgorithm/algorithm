@@ -17,9 +17,7 @@ void solve() {
 	
 	for(l; l<n; l++) {
 		//cout << "l = " << l << ", r = " << r << ", s = " << sum << "\n";
-		while(sum < s && ++r<n) {
-			sum += arr[r];
-		}
+		while(sum < s && ++r<n) sum += arr[r];
 		if(s <= sum) len = min(len, r-l+1);
 		sum -= arr[l];
 	}
