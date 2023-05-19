@@ -96,6 +96,7 @@ int main() {
 	
 	input();
 	solve(0, visited);
+	
 	cout << zero - minCnt;
 	
 	return 0;
