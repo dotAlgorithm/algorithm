@@ -21,10 +21,13 @@ void func(string op, int num){
 	if(op=="empty") cout << stc.empty() << "\n";
 	if(op=="size") cout << stc.size() << "\n";
 }
+
 int main() {
 	cin.tie(NULL);
 	ios_base::sync_with_stdio(0);
+	
 	cin >> n;
+	
 	for(n;n>0;n--){
 		int num = 0;
 		string op;
@@ -34,6 +37,3 @@ int main() {
 	}
 	return 0;
 }
-// 1 <= N <= 10,000 
-// 0.5sec, NlogN
-// 1 < int <= 100,000, base int   
