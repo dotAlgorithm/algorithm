@@ -5,50 +5,29 @@ using namespace std;
 int n;
 int arr[100001];
 
-// lower Bound
 void input() {
 	cin >> n;
 	for(int i = 0; i<n; i++) {
 		cin >> arr[i];
 	}
-	sort(arr, arr+n);
 }
 
-int solve(int s, int e, int key) {
-	int m;
-	while(s<=e) {
-		m = (s+e)/2;
-		if(arr[m] < key) s = m+1;
-		else e = m-1;
-	}
-	return s;
-}
-
-void ps() {
-	int sum = 0x7fffffff;
-	pair<int, int> p;
+void solve() {
+	int sum = INT_MAX;
+	int x, y;
 	for(int i = 0; i<n-1; i++) {
 		int v = lower_bound(arr+i+1, arr+n, -arr[i]) - arr;
-		//cout << arr[i] << " - " << arr[v] <<
-		//", " << arr[v-1] <<"\n";
 		
 		if(abs(sum) > abs(arr[i] + arr[v]) && (arr[v] != 0 && i!=v)){
-			p = {i, v};
+			x = i; y = v;
 			sum = arr[i] + arr[v];
-		//	cout << "i, v = " << i << ", " << v;
-		//	cout << " => " << sum <<"\n";
 		}
 		if(abs(sum) > abs(arr[i] + arr[v-1]) && (arr[v-1] != 0 && i!=(v-1))) {
-			p = {i, v-1};
+			x = i; y = v-1;
 			sum = arr[i] + arr[v-1];
-		//	cout << "i, v-1 = " << i << ", " << v-1;
-		//	cout << " => " << sum <<"\n";
 		}
-		//cout << p.first << ", " << p.second <<"\n";
 	}
-	int x = arr[p.first];
-	int y = arr[p.second];
-	cout << min(x,y) << " " << max(x, y);
+	cout << min(arr[x],arr[y]) << " " << max(arr[x], arr[y]);
 }
 
 int main() {
@@ -56,7 +35,7 @@ int main() {
 	cin.tie(NULL);
 	
 	input();
-	ps();
+	solve();
 	
 	return 0;
 }
