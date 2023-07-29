@@ -1,26 +1,40 @@
+// acmicpc 15650
+// authored by jihwankim
+// code.plus
+// 23-07-26 AM 05:19
 #include <bits/stdc++.h>
 
 using namespace std;
 
 int n, m;
-int arr[9]; 
+int arr[9];
+bool chk[9];
 
-void out(int len){
-	if(len > m) {
-		for(int i = 1; i<=m; i++) {
+void solve(int k) {
+	if(k == m) {
+		for(int i = 0; i<k; i++) {
 			cout << arr[i] << " ";
-		} cout <<"\n";
+		}
+		cout << "\n";
+		return ;
 	}
-	else {
-		for(int i = arr[len-1]+1; i<=n; i++){
-			arr[len] = i;
-			out(len+1);	
+	for(int i = 1; i<=n; i++) {
+		if(!chk[i]) {
+			arr[k] = i;
+			chk[i] = true;
+			solve(k+1);
+			for(int j = i+1; j<=n; j++) chk[j] = false;
 		}
 	}
 }
 
-int main(){
+int main() {
+	ios_base::sync_with_stdio(0);
+	cin.tie(NULL);
+	
 	cin >> n >> m;
-	out(1);
+	solve(0);
+	
 	return 0;
 }
+// AM 05:27

@@ -38,10 +38,6 @@ int end(int s, int e, int key) {
 	return e;
 }
 void solve() {
-	/*
-	for(int i = 0; i<n; i++) {
-		cout << card[i] << " ";
-	} cout << "\n\n";*/
 	for(int i = 0; i<m; i++) {
 		int s = start(0,n-1,myCard[i]);
 		int e = end(0, n-1, myCard[i]);

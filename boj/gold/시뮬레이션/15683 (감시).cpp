@@ -1,105 +1,223 @@
+//acmicpc 15683
+// athored by jihwankim
+// 2023-06-08 PM 10:39
+
 #include <bits/stdc++.h>
 
 using namespace std;
 
 int n, m;
-int arr[8][8];
-int board[8][8];
-int blind;
+int cctv;
+int minBlind = INT_MAX; 
+int arr[10][10];
+int dx[] = {0, -1, 0, 1};
+int dy[] = {1, 0, -1, 0};
 
 void input() {
 	cin >> n>> m;
-	blind = n*m;
 	for(int i =0 ; i<n; i++) {
 		for(int j=0; j<m; j++) {
 			cin >> arr[i][j];
-			if(arr[i][j] != 0) blind-=1;
+			if(arr[i][j] > 0 && arr[i][j] < 6) cctv++;
 		}
 	}
 }
 
-int up(int y, int x) {
-	int cnt = 0;
-	for(int i = y-1; i>=0; i--) {
-		if(arr[i][x] == 6) break;
-		else if(arr[i][x]>=1 && arr[i][x] <=5) continue;
-		if(arr[i][x] == -1) continue;
-		arr[i][x] = -1;
-		cnt++;
-	}
-	return cnt;
-}
-int down(int y, int x){
-	int cnt = 0;
-	for(int i = y+1; i<n; i++) {
-		if(arr[i][x] == 6) break;
-		if(arr[i][x]>=1 && arr[i][x] <=5) continue;
-		if(arr[i][x] == -1) continue;
-		arr[i][x] = -1;
-		cnt++;
-	}
-	return cnt;
-}
-int left(int y, int x){
-	int cnt = 0;
-	for(int i = x-1; i>=0; i--) {
-		if(arr[y][i] == 6) break;
-		else if(arr[y][i]>=1 && arr[y][i] <=5) continue;
-		if(arr[y][i] == -1) continue;
-		arr[y][i] = -1;
-		cnt++;
-	} 
-	return cnt;
-}
-int right(int y, int x) {
-	int cnt = 0;
-	for(int i = x+1; i<m; i++) {
-		if(arr[y][i] == 6) break;
-		else if(arr[y][i]>=1 && arr[y][i] <=5) continue;
-		if(arr[y][i] == -1) continue;
-		arr[y][i] = -1;
-		cnt++;
-	}
-	return cnt; 
+bool valid(int off[10][10], int &x, int &y) {
+	if(x < 0 || x>=n) return false;
+	if(y < 0 || y>=m) return false;
+	if(off[x][y] == 6) return false;
+	return true;
 }
 
-int cctv(int y, int x, int type) {
-	int cnt = 0;
-	
-	if(type == 1) cnt = up(y, x); 
-	else if(type == 2) cnt = down(y, x);
-	else if(type == 3) cnt = left(y, x); 
-	else cnt = right(y, x);
-	
-	return cnt;
+//감시 영역 
+void move(int office[10][10], int dir, int x, int y) {
+	office[x][y] = -1;
+	while(valid(office, x, y)) {
+		x += dx[dir];
+		y += dy[dir];
+		if(!valid(office, x, y)) return;
+		if(office[x][y] > 0) continue;
+		else office[x][y] = -1;
+	}
 }
 
-void solve() {
-	int addBlind = 0;
+void copy(int arr1[10][10], int arr2[10][10]) {
 	for(int i = 0; i<n; i++) {
-		for(int j=0; j<m; j++) {
-			if(arr[i][j] >=1 && arr[i][j] <=5) {
-				addBlind = cctv(i, j, arr[i][j]);
-				cout << "i, j = {" <<i << ", " << j <<"}일 때, " << addBlind << "\n";
-			}
+		for(int j = 0; j<m; j++) {
+			arr1[i][j] = arr2[i][j];
 		}
 	}
+}
+
+void print(int parr[10][10]) {
 	cout << "\n";
-	for(int i = 0; i<n; i++) {
-		for(int j=0; j<m; j++) {
-			cout << arr[i][j] << " ";
+	for(int i =0 ; i<n; i++) {
+		for(int j = 0; j<m; j++) {
+			cout << parr[i][j] << " ";
 		}
 		cout << "\n";
 	}
-	cout << blind - addBlind;
-} 
+}
 
+//브루트포스 
+void solve(int office[10][10], int cnt) {
+	if(cnt == cctv) {
+		int blindSpot = 0;
+		for(int i = 0; i<n; i++) {
+			for(int j = 0; j<m; j++) {
+				if(office[i][j] == 0) blindSpot++;
+			}
+		}
+		
+		minBlind = min(minBlind, blindSpot);
+		return;
+	}
+	int noffice[10][10];
+	copy(noffice, office);
+	for(int i = 0; i<n; i++) {
+		for(int j = 0; j<m; j++) {
+			//카메라 
+			if(noffice[i][j] == 1) {
+				for(int k = 0; k<4; k++) {
+					move(noffice, k, i, j);
+					//print(noffice);
+					solve(noffice,  cnt+1);
+					noffice[i][j] = office[i][j];
+					copy(noffice, office);		
+				}
+				return;
+			}
+			if(noffice[i][j] == 2) {
+				for(int k = 0; k< 2; k++) {
+					move(noffice, k, i, j);
+					move(noffice, (k+2)%4, i, j);
+					//print(noffice);
+					solve(noffice, cnt+1);
+					noffice[i][j] = office[i][j];
+					copy(noffice, office);
+				}
+				return;
+			}
+			if(noffice[i][j] == 3) {
+				for(int k = 0; k<4; k++) {
+					move(noffice, k, i, j);
+					move(noffice, (k+1)%4, i, j);
+					//print(noffice);
+					solve(noffice, cnt+1);
+					noffice[i][j] = office[i][j];
+					copy(noffice, office);
+				}
+				return;
+			}
+			if(noffice[i][j] == 4) {
+				for(int k = 0; k<4; k++) {
+					move(noffice, k, i, j);
+					move(noffice, (k+1)%4, i, j);
+					move(noffice, (k+2)%4, i, j);
+					//print(noffice);
+					solve(noffice, cnt+1);
+					noffice[i][j] = office[i][j];
+					copy(noffice, office);
+				}
+				return;
+			}
+			if(noffice[i][j] == 5){
+				for(int k = 0; k<4; k++) move(noffice, k, i, j);
+				//print(noffice);
+				solve(noffice, cnt+1);
+                noffice[i][j] = office[i][j];
+				copy(noffice, office);
+				return;
+			}
+		}
+	}
+} 
 int main() {
 	ios_base::sync_with_stdio(0);
 	cin.tie(NULL);
 	
 	input();
-	solve();
+	solve(arr, 0);
+	cout << minBlind;
 	
 	return 0;
 }
+
+
+/*
+6 6
+0 0 0 0 0 0
+0 2 0 0 0 0
+0 0 2 0 0 0
+0 0 0 2 0 0
+0 0 0 0 2 0
+0 0 0 0 0 0
+
+6 6
+0 0 0 0 0 0
+0 3 0 0 0 0
+0 0 3 0 0 0
+0 0 0 3 0 0
+0 0 0 0 3 0
+0 0 0 0 0 0
+
+6 6
+0 0 0 0 0 0
+0 4 0 0 0 0
+0 0 4 0 0 0
+0 0 0 4 0 0
+0 0 0 0 4 0
+0 0 0 0 0 0
+
+8 8
+0 0 0 0 0 0 0 0
+0 1 0 2 0 3 0 0
+0 0 1 0 0 0 0 0
+0 0 0 2 0 0 0 0 
+0 4 0 0 3 0 5 0 
+0 0 0 0 0 4 0 0 
+0 0 0 0 0 0 5 0 
+0 0 0 0 0 0 0 0
+
+8 8
+1 0 2 0 3 0 4 0
+0 0 0 0 0 0 0 5
+0 0 0 0 0 0 0 0
+0 0 0 0 0 0 0 1 
+0 0 0 0 0 0 0 0 
+0 0 0 0 0 0 0 2 
+0 0 0 0 0 0 0 0 
+0 0 0 0 0 0 0 3
+
+8 8
+3 0 2 0 1 0 5 0
+0 0 0 0 0 0 0 4
+0 0 0 0 0 0 0 0
+0 0 0 0 0 0 0 3 
+0 0 0 0 0 0 0 0 
+0 0 0 0 0 0 0 2 
+0 0 0 0 0 0 0 0 
+0 0 0 0 0 0 0 1
+
+8 8
+0 0 0 0 0 0 0 0
+1 0 0 0 0 0 0 0
+0 2 0 0 5 0 0 0
+0 0 3 0 0 5 0 0 
+0 0 0 4 0 0 0 0 
+0 0 0 0 3 0 0 0 
+0 0 0 0 0 0 0 0 
+0 0 0 0 0 0 0 0
+
+8 8
+0 0 0 0 0 5 0 0
+0 1 0 0 0 0 0 0
+0 2 0 0 0 0 0 0
+0 3 0 0 0 0 0 0 
+0 4 0 0 0 0 0 0 
+0 5 0 0 0 0 0 0 
+0 0 0 0 0 0 4 0 
+0 0 0 0 0 0 0 5
+*/
+// AM 1:17
