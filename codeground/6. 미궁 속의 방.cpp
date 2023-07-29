@@ -72,9 +72,8 @@ int main(int argc, char** argv)
 		cout << "Case #" << test_case+1 << endl;
 		cout << Answer << endl;
 	}
-
-	return 0;
-	
+ 
+	return 0;	
 }
 /*
 ¸î°³ = i+j+1
