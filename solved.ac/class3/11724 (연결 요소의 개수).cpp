@@ -2,10 +2,6 @@
 
 using namespace std;
 
-<<<<<<< HEAD
-int graph[1001][1001];
-int n, m;
-=======
 int n, m;
 bool visited[1001];
 vector<int> graph[1001];
@@ -46,28 +42,12 @@ void solve() {
 	}
 	cout << cnt;	
 }
->>>>>>> c19c37cc2b4d34341e7cd72e97cc8c7ad787fcf3
 
 int main() {
 	ios_base::sync_with_stdio(0);
 	cin.tie(NULL);
 	
-<<<<<<< HEAD
-	int cnt = 0;
-	
-	cin >> n >> m;
-	
-	for(int i = 0; i<m; i++) {
-		int u, v;
-		cin >> u >> v;
-		if(graph[v][u]) cnt++;
-		graph[u][v] = 1;
-	}
-	cout << cnt;
-
-=======
 	input();
 	solve();
->>>>>>> c19c37cc2b4d34341e7cd72e97cc8c7ad787fcf3
 	return 0;
 }
