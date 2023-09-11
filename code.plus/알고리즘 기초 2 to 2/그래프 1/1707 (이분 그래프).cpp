@@ -1,76 +1,71 @@
+// acmicpc 1707
+// authored by jihwankim
+// code.plus
+// 23-09-08 AM 05:17
 #include <bits/stdc++.h>
 
 using namespace std;
 
-int t;
+int v, e;
+vector<int> arr[20005];
+bool visited[20005];
+bool color[20005];
 
-vector<vector<int> > input() {
-	int v, e;
+void input() {
 	cin >> v >> e;
-	vector<vector<int> > graph(v+1);
 	for(int i = 0; i<e; i++) {
-		int u, w;
-		cin >> u >> w;
-		graph[u].push_back(w);
-		graph[w].push_back(u);
+		int a, b;
+		cin >> a >> b;
+		arr[a].push_back(b);
+		arr[b].push_back(a);
 	}
-	
-	return graph;
 }
 
-int* preset(int n) {
-	int* visited = new int[n];
-	for(int i = 0; i<n; i++){
-		visited[i] = 0;
+bool dfs(int a, bool c) {
+	color[a] = c;
+	bool next_color = c ? false : true;
+	for(int &x : arr[a]) {
+		if(!visited[x]) {
+			visited[x] = true;
+			if(!dfs(x, next_color)) return false;
+		}
+		else if(c == color[x]) return false;
 	}
-	return visited;
+	return true;
 }
 
-bool bfs(vector<vector<int> > graph, int* visited, int n) {
-	queue<int> q;
-	int size = graph.size();
-	visited[n] = 1;
-	q.push(n);
-	
-	while(!q.empty()) {
-		int v = q.front(); q.pop();
-		for(int i = 0; i<graph[v].size(); i++) {
-			int w = graph[v][i];
-			if(!visited[w]) {
-				visited[w] = visited[v]==1? 2 : 1;
-				q.push(w);
-			}
-			else if(visited[w] == visited[v]) {
-				return false;
+void solve() {
+	for(int i = 1; i <= v; i++) {
+		if(!visited[i]) {
+			visited[i] = true;
+			if(!dfs(i, false)) {
+				cout << "NO\n";
+				return ;
 			}
 		}
 	}
-	return true;
+	cout << "YES\n";
+}
+
+void clear() {
+	for(int i = 1; i<=v; i++) {
+		arr[i].clear();
+		visited[i] = false;
+	}
 }
 
 int main() {
 	ios_base::sync_with_stdio(0);
 	cin.tie(NULL);
 	
+	int t;
 	cin >> t;
 	while(t--) {
-		vector<vector<int> > graph = input();
-		int* visited = preset(graph.size());
-		bool check = true;
-		
-		for(int i = 1; i<graph.size(); i++) {
-			if(!visited[i]) check = bfs(graph,visited,i);
-			if(!check) break;
-		}
-		
-		delete[] visited;
-		
-		if(check == 1) {
-			cout << "YES\n";
-		}
-		else {
-			cout << "NO\n";
-		}
+		input();
+		solve();
+		clear();
 	}
+	
 	return 0;
 }
+// AM 05:40
