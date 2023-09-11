@@ -36,7 +36,7 @@ void solve() {
 			cnt++;
 			visited[i] = true;
 			dfs(i);
-		}
+		} 
 	}
 	cout << cnt;
 }
@@ -50,5 +50,4 @@ int main() {
 	
 	return 0;
 }
-
 // AM 04:02 
